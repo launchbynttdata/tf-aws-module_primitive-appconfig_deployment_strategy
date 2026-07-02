@@ -44,6 +44,7 @@ func verifyDeploymentStrategy(t *testing.T, ctx types.TestContext) (*appconfig.C
 	assert.Equal(t, terraform.Output(t, opts, "expected_replicate_to"), replicateTo)
 	assert.Equal(t, int32Output(t, ctx, "expected_deployment_duration_in_minutes"), deploymentDuration)
 	assert.Equal(t, int32Output(t, ctx, "expected_final_bake_time_in_minutes"), finalBakeTime)
+	assert.InEpsilon(t, float32Output(t, ctx, "expected_growth_factor"), growthFactor, 0.001)
 
 	client := appConfigClient(t, region)
 	strategy, err := client.GetDeploymentStrategy(context.Background(), &appconfig.GetDeploymentStrategyInput{DeploymentStrategyId: aws.String(id)})
@@ -93,4 +94,13 @@ func int32Output(t *testing.T, ctx types.TestContext, name string) int32 {
 	require.NoError(t, err)
 
 	return int32(value)
+}
+
+func float32Output(t *testing.T, ctx types.TestContext, name string) float32 {
+	t.Helper()
+
+	value, err := strconv.ParseFloat(terraform.Output(t, ctx.TerratestTerraformOptions(), name), 32)
+	require.NoError(t, err)
+
+	return float32(value)
 }
