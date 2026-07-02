@@ -47,3 +47,33 @@ output "region" {
   description = "The AWS Region where the example resources are deployed."
   value       = data.aws_region.current.region
 }
+
+output "deployment_duration_in_minutes" {
+  description = "The deployment duration in minutes."
+  value       = module.deployment_strategy.deployment_duration_in_minutes
+}
+
+output "final_bake_time_in_minutes" {
+  description = "The final bake time in minutes."
+  value       = module.deployment_strategy.final_bake_time_in_minutes
+}
+
+output "growth_factor" {
+  description = "The growth factor."
+  value       = module.deployment_strategy.growth_factor
+}
+
+output "expected_deployment_duration_in_minutes" {
+  description = "Expected deployment_duration_in_minutes."
+  value       = var.deployment_duration_in_minutes
+}
+
+output "expected_final_bake_time_in_minutes" {
+  description = "Expected final_bake_time_in_minutes."
+  value       = var.final_bake_time_in_minutes
+}
+
+output "expected_growth_factor" {
+  description = "Expected growth_factor."
+  value       = var.growth_factor
+}

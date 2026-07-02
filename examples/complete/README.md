@@ -19,7 +19,6 @@ This example creates a complete AppConfig deployment strategy deployment with th
 
 data "aws_region" "current" {}
 
-data "aws_caller_identity" "current" {}
 
 module "resource_names" {
   source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
@@ -96,9 +95,15 @@ module "deployment_strategy" {
 | Name | Description |
 |------|-------------|
 | <a name="output_arn"></a> [arn](#output\_arn) | The ARN of the deployment strategy. |
+| <a name="output_deployment_duration_in_minutes"></a> [deployment\_duration\_in\_minutes](#output\_deployment\_duration\_in\_minutes) | The deployment duration in minutes. |
+| <a name="output_expected_deployment_duration_in_minutes"></a> [expected\_deployment\_duration\_in\_minutes](#output\_expected\_deployment\_duration\_in\_minutes) | Expected deployment\_duration\_in\_minutes. |
+| <a name="output_expected_final_bake_time_in_minutes"></a> [expected\_final\_bake\_time\_in\_minutes](#output\_expected\_final\_bake\_time\_in\_minutes) | Expected final\_bake\_time\_in\_minutes. |
+| <a name="output_expected_growth_factor"></a> [expected\_growth\_factor](#output\_expected\_growth\_factor) | Expected growth\_factor. |
 | <a name="output_expected_growth_type"></a> [expected\_growth\_type](#output\_expected\_growth\_type) | Expected growth type. |
 | <a name="output_expected_name"></a> [expected\_name](#output\_expected\_name) | Expected deployment strategy name. |
 | <a name="output_expected_replicate_to"></a> [expected\_replicate\_to](#output\_expected\_replicate\_to) | Expected replication destination. |
+| <a name="output_final_bake_time_in_minutes"></a> [final\_bake\_time\_in\_minutes](#output\_final\_bake\_time\_in\_minutes) | The final bake time in minutes. |
+| <a name="output_growth_factor"></a> [growth\_factor](#output\_growth\_factor) | The growth factor. |
 | <a name="output_growth_type"></a> [growth\_type](#output\_growth\_type) | The growth type. |
 | <a name="output_id"></a> [id](#output\_id) | The deployment strategy ID. |
 | <a name="output_name"></a> [name](#output\_name) | The name of the deployment strategy. |
