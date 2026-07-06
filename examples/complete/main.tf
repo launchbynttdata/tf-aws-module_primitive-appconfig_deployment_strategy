@@ -10,14 +10,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-resource "aws_appconfig_deployment_strategy" "deployment_strategy" {
-  name                           = var.name
+data "aws_region" "current" {}
+
+
+module "resource_names" {
+  source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
+  version = "~> 2.0"
+
+  for_each = var.resource_names_map
+
+  logical_product_family  = var.logical_product_family
+  logical_product_service = var.logical_product_service
+  class_env               = var.class_env
+  instance_env            = var.instance_env
+  instance_resource       = var.instance_resource
+  cloud_resource_type     = each.value.name
+  maximum_length          = each.value.max_length
+
+  region = join("", split("-", data.aws_region.current.region))
+}
+
+module "deployment_strategy" {
+  source = "../.."
+
+  name                           = module.resource_names["deployment_strategy"].standard
   deployment_duration_in_minutes = var.deployment_duration_in_minutes
   description                    = var.description
   final_bake_time_in_minutes     = var.final_bake_time_in_minutes
   growth_factor                  = var.growth_factor
   growth_type                    = var.growth_type
-  region                         = var.region
   replicate_to                   = var.replicate_to
   tags                           = var.tags
 }
