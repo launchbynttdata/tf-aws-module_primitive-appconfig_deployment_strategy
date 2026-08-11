@@ -27,21 +27,21 @@ func TestComposableCompleteReadOnly(t *testing.T, ctx types.TestContext) {
 
 func verifyDeploymentStrategy(t *testing.T, ctx types.TestContext) (*appconfig.Client, string) {
 	opts := ctx.TerratestTerraformOptions()
-	region := terraform.Output(t, opts, "region")
-	id := terraform.Output(t, opts, "id")
-	arn := terraform.Output(t, opts, "arn")
-	name := terraform.Output(t, opts, "name")
-	growthType := terraform.Output(t, opts, "growth_type")
-	replicateTo := terraform.Output(t, opts, "replicate_to")
+	region := terraform.OutputContext(t, context.Background(), opts, "region")
+	id := terraform.OutputContext(t, context.Background(), opts, "id")
+	arn := terraform.OutputContext(t, context.Background(), opts, "arn")
+	name := terraform.OutputContext(t, context.Background(), opts, "name")
+	growthType := terraform.OutputContext(t, context.Background(), opts, "growth_type")
+	replicateTo := terraform.OutputContext(t, context.Background(), opts, "replicate_to")
 	deploymentDuration := int32Output(t, ctx, "deployment_duration_in_minutes")
 	finalBakeTime := int32Output(t, ctx, "final_bake_time_in_minutes")
-	growthFactor, err := strconv.ParseFloat(terraform.Output(t, opts, "growth_factor"), 32)
+	growthFactor, err := strconv.ParseFloat(terraform.OutputContext(t, context.Background(), opts, "growth_factor"), 32)
 	require.NoError(t, err)
 
 	require.NotEqual(t, "", id)
-	assert.Equal(t, terraform.Output(t, opts, "expected_name"), name)
-	assert.Equal(t, terraform.Output(t, opts, "expected_growth_type"), growthType)
-	assert.Equal(t, terraform.Output(t, opts, "expected_replicate_to"), replicateTo)
+	assert.Equal(t, terraform.OutputContext(t, context.Background(), opts, "expected_name"), name)
+	assert.Equal(t, terraform.OutputContext(t, context.Background(), opts, "expected_growth_type"), growthType)
+	assert.Equal(t, terraform.OutputContext(t, context.Background(), opts, "expected_replicate_to"), replicateTo)
 	assert.Equal(t, int32Output(t, ctx, "expected_deployment_duration_in_minutes"), deploymentDuration)
 	assert.Equal(t, int32Output(t, ctx, "expected_final_bake_time_in_minutes"), finalBakeTime)
 	assert.InEpsilon(t, float32Output(t, ctx, "expected_growth_factor"), growthFactor, 0.001)
@@ -90,7 +90,7 @@ func exerciseTagWrite(t *testing.T, client *appconfig.Client, resourceARN string
 func int32Output(t *testing.T, ctx types.TestContext, name string) int32 {
 	t.Helper()
 
-	value, err := strconv.ParseInt(terraform.Output(t, ctx.TerratestTerraformOptions(), name), 10, 32)
+	value, err := strconv.ParseInt(terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), name), 10, 32)
 	require.NoError(t, err)
 
 	return int32(value)
@@ -99,7 +99,7 @@ func int32Output(t *testing.T, ctx types.TestContext, name string) int32 {
 func float32Output(t *testing.T, ctx types.TestContext, name string) float32 {
 	t.Helper()
 
-	value, err := strconv.ParseFloat(terraform.Output(t, ctx.TerratestTerraformOptions(), name), 32)
+	value, err := strconv.ParseFloat(terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), name), 32)
 	require.NoError(t, err)
 
 	return float32(value)
